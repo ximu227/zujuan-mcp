@@ -58,7 +58,7 @@ export async function getPaperDetail(paperId, bankId) {
       const c = el.cloneNode(true);
       c.querySelectorAll('img').forEach((i) => i.replaceWith(document.createTextNode(/formula/.test(i.src) ? '[公式]' : '[图]')));
       c.querySelectorAll('bk').forEach((b) => b.replaceWith(document.createTextNode('____')));
-      return c.innerText.replace(/[ \t ]+/g, ' ').replace(/\n{2,}/g, '\n').trim();
+      return c.innerText.replace(/[ 	 ]+/g, ' ').replace(/\n{2,}/g, '\n').trim();
     };
     const sections = [...document.querySelectorAll('.sec-item')].map((sec) => ({
       title: sec.querySelector('.sec-title span')?.innerText.trim(),
@@ -73,7 +73,7 @@ export async function getPaperDetail(paperId, bankId) {
         };
       }),
     }));
-    const analyze = document.querySelector('.exam-analyze .info-box');
+    const analyze = document.querySelector('.info-box');
     return {
       url: location.href,
       title: document.querySelector('.exam-title .title-txt .txt')?.innerText.trim(),
@@ -132,7 +132,7 @@ export async function paperBasketClear(bankId, subject) {
 export async function paperBasketTree(subject, filter) {
   await useSubject(subject);
   const list = await api('/zujuan-api/get_paper_basket_tree', {}, 'GET');
-  if (!Array.is(list) || !list.length) return { empty: true, nodes: [] };
+  if (!Array.isArray(list) || !list.length) return { empty: true, nodes: [] };
   if (filter) {
     // 关键字可用 | 分隔多个，返回匹配节点及其路径
     const keys = String(filter).split(/[|｜,，\s]+/).filter(Boolean);
