@@ -63,7 +63,20 @@ cd "$HOME/zujuan-mcp"
 
 `deploy.sh` 会自动完成：拉取代码 → `npm install` → 创建下载目录。已有安装目录时会更新到最新版本。可传参指定目录和分支：`./deploy.sh /path/to/dir main`。
 
-> 私有仓库克隆需要认证：先 `gh auth login`，或在 URL 中使用 token，或配置 git 凭据。
+私有仓库克隆需要认证，三种方式任选：
+
+```bash
+# 1) 部署时注入只读 token（推荐；token 仅经 HTTP 头传递，不写入 .git/config）
+GH_TOKEN=ghp_xxx ./deploy.sh
+
+# 2) 先登录 GitHub CLI
+gh auth login && ./deploy.sh
+
+# 3) 预先配置好 git 凭据后直接运行
+./deploy.sh
+```
+
+> 若把仓库改为公开（public），则无需任何认证，直接 `curl ... | bash` 即可。本仓库不含任何硬编码密钥，cookie/token 均为运行时逻辑。
 
 ## 配置
 
