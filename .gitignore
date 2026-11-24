@@ -1,0 +1,22 @@
+# 依赖
+node_modules/
+
+# 日志
+*.log
+npm-debug.log*
+
+# 环境变量与密钥（请勿提交真实凭据）
+.env
+.env.*
+!.env.example
+
+# 浏览器用户目录与运行时
+profile/
+.zujuan-mcp/
+*.crdownload
+
+# 系统/编辑器
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

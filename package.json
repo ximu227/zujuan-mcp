@@ -1,0 +1,24 @@
+{
+  "name": "zujuan-mcp",
+  "version": "1.0.0",
+  "description": "MCP server that lets AI operate 组卷网 (zujuan.xkw.com) via a real browser",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "playwright": "^1.65.1",
+    "zod": "^4.6.7"
+  },
+  "bin": {
+    "zujuan-mcp": "src/index.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
