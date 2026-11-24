@@ -19,7 +19,7 @@ export async function downloadHistory({ days = 90, page = 1, pageSize = 10 } = {
 }
 
 export async function archives({ days = 365, page = 1, pageSize = 10 } = {}) {
-  const r = await api('/zujuan-api/user_paper/archives_paged', { days, pageIndex: page, pageSize, startTimeStr: '', endTimeStr '', type: 1, folderId: 0 });
+  const r = await api('/zujuan-api/user_paper/archives_paged', { days, pageIndex: page, pageSize, startTimeStr: '', endTimeStr: '', type: 1, folderId: 0 });
   return r;
 }
 
