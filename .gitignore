@@ -1,5 +1,7 @@
 # 依赖
 node_modules/
+# 锁文件不入库：部署使用 npm install 按 package.json 解析（如需可复现安装可改为提交并在 deploy 用 npm ci）
+package-lock.json
 
 # 日志
 *.log
