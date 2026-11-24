@@ -8,26 +8,42 @@
 #   安装目录 = $HOME/zujuan-mcp
 #   分支     = main
 #
+# 私有仓库认证（任选其一）：
+#   1) 设置只读 token：GH_TOKEN=ghp_xxx ./deploy.sh
+#      （也支持 GITHUB_TOKEN；token 仅经 HTTP 头传递，不会写入 .git/config）
+#   2) 先 gh auth login，或配置好 git 凭据后直接运行。
+# 若仓库改为公开（public），则无需任何认证，直接运行即可。
+#
 # 示例：
 #   curl -fsSL https://raw.githubusercontent.com/ximu227/zujuan-mcp/main/deploy.sh | bash
-#   ./deploy.sh $HOME/zujuan-mcp main
+#   GH_TOKEN=ghp_xxx ./deploy.sh "$HOME/zujuan-mcp" main
 #
 set -euo pipefail
 
-REPO_URL="https://github.com/ximu227/zujuan-mcp.git"
+REPO_OWNER="ximu227"
+REPO_NAME="zujuan-mcp"
+REPO_URL="https://github.com/${REPO_OWNER}/${REPO_NAME}.git"
 INSTALL_DIR="${1:-$HOME/zujuan-mcp}"
 BRANCH="${2:-main}"
+TOKEN="${GH_TOKEN:-${GITHUB_TOKEN:-}}"
+
+# 有 token 时通过 Authorization 头认证，避免把 token 写进 remote URL
+if [ -n "$TOKEN" ]; then
+  GIT_AUTH=(git -c "http.extraHeader=Authorization: Bearer ${TOKEN}")
+else
+  GIT_AUTH=(git)
+fi
 
 echo "==> 目标目录：$INSTALL_DIR（分支：$BRANCH）"
 
 if [ -d "$INSTALL_DIR/.git" ]; then
   echo "==> 已存在仓库，拉取最新代码"
-  git -C "$INSTALL_DIR" fetch --depth=1 origin "$BRANCH"
+  "${GIT_AUTH[@]}" -C "$INSTALL_DIR" fetch --depth=1 origin "$BRANCH"
   git -C "$INSTALL_DIR" checkout "$BRANCH"
   git -C "$INSTALL_DIR" reset --hard "origin/$BRANCH"
 else
   echo "==> 克隆仓库"
-  git clone --depth=1 --branch "$BRANCH" "$REPO_URL" "$INSTALL_DIR"
+  "${GIT_AUTH[@]}" clone --depth=1 --branch "$BRANCH" "$REPO_URL" "$INSTALL_DIR"
 fi
 
 echo "==> 安装 Node 依赖"
