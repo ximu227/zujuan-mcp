@@ -40,7 +40,7 @@ export async function listTopics({ subject, url, keyword, page: pageNum } = {}) 
     document.querySelectorAll('.type-group-item, .type-menu, [class*=filter] .type-list').forEach((g) => {
       const name = (g.querySelector('.type-name, .name-txt')?.innerText || g.dataset.name || '').replace(/[：:]/g, '').trim();
       const opts = [...g.querySelectorAll('a[href]')].map((a) => ({ name: a.innerText.trim(), href: a.getAttribute('href') })).filter((o) => o.name);
-      if (name && opts.length) filters[name] = [];
+      if (name && opts.length) filters[name] = opts;
     });
     const pager = document.querySelector('.tk-pager');
     return {
